@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    组件的信息 ioc的配置 -> applicationContext读取了 -> 实例化对象
+        ioc的配置一定是实现类，因为需要真正进行实例化
+-->
+<!--    修改scope为多例模式，每次getBean都会获得一个新的对象，这也是创建多例对象的时机-->
+<!--    <bean id="happyComponent" class="com.gzzz.ioc_03.HappyComponent" scope="prototype"/>-->
+
+<!--    创建单例对象的时机是IOC容器初始化时-->
+    <bean id="happyComponent" class="com.gzzz.ioc_03.HappyComponent" scope="singleton"/>
+
+</beans>

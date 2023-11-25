@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/atguigu2023_SSM.iml" filepath="$PROJECT_DIR$/atguigu2023_SSM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-ioc-xml-01.iml" filepath="$PROJECT_DIR$/spring-ioc-xml-01.iml" />
     </modules>
   </component>
 </project>

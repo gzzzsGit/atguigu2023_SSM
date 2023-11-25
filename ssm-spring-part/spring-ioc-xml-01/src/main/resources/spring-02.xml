@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+<!--
+    引用和被引用的组件必须全部在ioc容器
+    springioc容器是高级容器，内部有缓存动作：1 先创建所有ioc对象 2. 在进行属性赋值
+        所以先后声明bean标签（ioc对象）都没有关系
+-->
+
+<!--    1. 单个构造参数注入-->
+<!--        步骤1：将他们都存放在ioc容器[ioc] -->
+    <bean id="userService1" class="com.gzzz.ioc_02.UserService">
+<!--        <constructor-arg构造参数传值(否则调用的就是无参构造器了) 依赖注入的配置
+                value="直接属性值" 如String name = "二狗子" int age = "18"
+                ref = "其他bean的beanID"
+                value,ref二选一
+-->
+        <constructor-arg ref="userDao"/>
+    </bean>
+    <bean id="userDao" class="com.gzzz.ioc_02.UserDao"/>
+
+<!--    2. 多个构造参数注入-->
+    <bean id="userService2" class="com.gzzz.ioc_02.UserService">
+<!--        方案一：按照构造参数的顺序赋值,不推荐-->
+<!--        <constructor-arg value="18"/>-->
+<!--        <constructor-arg value="二狗子"/>-->
+<!--        <constructor-arg ref="userDao"/>-->
+<!--        方案二：使用name指定构造参数的参数名，不需要按顺序赋值，推荐-->
+        <constructor-arg name="userDao" ref="userDao"/>
+        <constructor-arg name="age" value="18"/>
+        <constructor-arg name="name" value="二狗子"/>
+<!--        方案三，使用index指定构造参数的顺序，不推荐，因为如果知道index直接用方案一就行-->
+<!--        <constructor-arg index="2" ref="userDao"/>-->
+<!--        <constructor-arg index="0" value="18"/>-->
+<!--        <constructor-arg index="1" value="二狗子"/>-->
+    </bean>
+
+<!--    3. 触发setter方法进行注入-->
+    <bean id="movieFinder" class="com.gzzz.ioc_02.MovieFinder"/>
+    <bean id="simpleMovieLister" class="com.gzzz.ioc_02.SimpleMovieLister">
+<!--        name = setter方法的去掉set并将首字母小写的值
+                如set方法为setAttribute则name = attribute，也就是标准setter方法对应的属性名，如果是不标准的命名setter方法就不是属性名
+            value
+-->
+        <property name="movieFinder" ref="movieFinder"/>
+        <property name="movieName" value="红猪"/>
+
+    </bean>
+</beans>
