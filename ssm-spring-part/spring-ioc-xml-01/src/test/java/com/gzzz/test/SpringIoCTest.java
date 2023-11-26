@@ -2,9 +2,12 @@ package com.gzzz.test;
 
 import com.gzzz.ioc_03.HappyComponent;
 import com.gzzz.ioc_04.JavaBean2;
+import com.gzzz.ioc_05.JavaBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.sql.SQLOutput;
 
 /**
  * className: SpringIoCTest
@@ -91,5 +94,23 @@ public class SpringIoCTest {
         // 2.正常结束ioc容器
         applicationContext.close();//销毁方法
     }
+    
+    @Test
+    public void test_05(){
+        // 1.创建ioc容器
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-05.xml");
 
+        // 2.读取组件
+        JavaBean javaBean = applicationContext.getBean("javaBean", JavaBean.class);
+        System.out.println("JavaBean: " + javaBean);//JavaBean: com.gzzz.ioc_05.JavaBean@4cc8eb05
+
+        // TODO：FactoryBean工厂也会加入ioc容器，name 为 &id(id是所创建bean对象的id)
+        Object factoryBean = applicationContext.getBean("&javaBean");
+        System.out.println("factoryBean: " + factoryBean);//factoryBean: com.gzzz.ioc_05.JavaBeanFactoryBean@51f116b8
+
+        System.out.println(javaBean.toString());//JavaBean{name='二狗子'}
+
+        // 3.正常结束ioc容器
+        applicationContext.close();
+    }
 }

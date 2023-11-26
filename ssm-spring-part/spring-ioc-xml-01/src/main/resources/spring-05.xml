@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--
+    id = getObject方法返回的对象的标识
+        工厂类的id为 id前面加一个&，工厂类也会被加入ioc容器
+    class = factoryBean标准化工厂类
+-->
+    <bean id="javaBean" class="com.gzzz.ioc_05.JavaBeanFactoryBean">
+    <!--此位置的属性：JavaBean工厂类的setter配置，而不是getObject返回对象的setter配置-->
+        <property name="valueName" value="二狗子"/>
+    </bean>
+</beans>
