@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--
+    1. 普通配置包扫描
+    base-package 指定ioc容器去哪些包下查找注解类 ->放入ioc容器
+    可以指定一个或多个包，包之间用逗号隔开
+    扫描范围为指定包以及子包中的所有类
+-->
+    <context:component-scan base-package="com.gzzz.ioc_01">
+<!--    排除包下的注解    -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+<!--如果排除expression="org.springframework.stereotype.Component，则会排除service，controller，repository-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>-->
+    </context:component-scan>
+
+<!--
+    指定包，指定包含注解
+    需要设置use-default-filters="false"，即指定包下的注解先不生效，否则还是会读取所有注解
+    然后才设置ontext:include-filter，
+-->
+<!--    <context:component-scan base-package="com.gzzz.ioc_01" use-default-filters="false">-->
+<!--&lt;!&ndash;    只扫描包下的该注解    &ndash;&gt;-->
+<!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+</beans>

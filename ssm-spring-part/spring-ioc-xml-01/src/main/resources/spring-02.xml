@@ -12,7 +12,7 @@
 <!--    1. 单个构造参数注入-->
 <!--        步骤1：将他们都存放在ioc容器[ioc] -->
     <bean id="userService1" class="com.gzzz.ioc_02.UserService">
-<!--        <constructor-arg构造参数传值(否则调用的就是无参构造器了) 依赖注入的配置
+<!--        <constructor-arg构造参数传值(否则调用的就是无参构造器了) 依赖注入的配置>
                 value="直接属性值" 如String name = "二狗子" int age = "18"
                 ref = "其他bean的beanID"
                 value,ref二选一

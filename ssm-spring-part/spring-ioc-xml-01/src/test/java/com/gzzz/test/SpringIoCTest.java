@@ -19,6 +19,13 @@ import java.sql.SQLOutput;
  * @Version 1.0
  */
 public class SpringIoCTest {
+    @Test
+    public void test1(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-01.xml");
+        Object happyComponent1 = applicationContext.getBean("happyComponent1");
+        Object happyComponent2 = applicationContext.getBean("happyComponent2");
+        System.out.println(happyComponent1==happyComponent2);//false
+    }
     /**
      * 讲解如何创建ioc容器并读取配置文件
      */

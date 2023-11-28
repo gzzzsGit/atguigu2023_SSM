@@ -2,6 +2,7 @@ package com.gzzz.jdbc;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.gzzz.controller.StudentController;
 import com.gzzz.pojo.Student;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -98,5 +100,23 @@ public class jabcTemplateTest {
 
         List<Student> studentList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Student>(Student.class));
         System.out.println("studentList: " + studentList);//studentList: [Student{id=1, name='张三', gender='男', age=20, classes='高中一班'}, Student{id=2, name='李四', gender='男', age=19, classes='高中二班'}, Student{id=3, name='王五', gender='女', age=18, classes='高中一班'}, Student{id=4, name='赵六', gender='女', age=20, classes='高中三班'}, Student{id=5, name='刘七', gender='男', age=19, classes='高中二班'}, Student{id=6, name='陈八', gender='女', age=18, classes='高中一班'}, Student{id=7, name='杨九', gender='男', age=20, classes='高中三班'}, Student{id=8, name='吴十', gender='男', age=19, classes='高中二班'}, Student{id=9, name='中秋森', gender='男', age=22, classes='1311'}]
+    }
+
+    /**
+     * 从ioc容器中获取controller并且调用业务！内部都是ioc容器进行组装
+     */
+    @Test
+    public void testQuerryAll(){
+        // 1.创建ioc容器
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-02.xml");
+
+        // 2.获取组件对象
+        StudentController controller = applicationContext.getBean(StudentController.class);
+
+        // 3.使用组件对象
+        controller.findAll();
+
+        // 4.关闭容器
+        applicationContext.close();
     }
 }
