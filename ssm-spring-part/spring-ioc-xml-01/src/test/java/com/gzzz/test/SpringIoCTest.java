@@ -92,6 +92,11 @@ public class SpringIoCTest {
         // 1.创建ioc容器，就会进行组件对象的实例化
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-04.xml");//初始化方法...
 
+        // 测试默认单例模式
+        com.gzzz.ioc_04.JavaBean bean3 = applicationContext.getBean(com.gzzz.ioc_04.JavaBean.class);
+        com.gzzz.ioc_04.JavaBean bean4 = applicationContext.getBean(com.gzzz.ioc_04.JavaBean.class);
+        System.out.println(bean3==bean4);//true
+
         // 测试多例模式
         JavaBean2 bean1 = applicationContext.getBean(JavaBean2.class);
         JavaBean2 bean2 = applicationContext.getBean(JavaBean2.class);
@@ -120,4 +125,6 @@ public class SpringIoCTest {
         // 3.正常结束ioc容器
         applicationContext.close();
     }
+
+
 }

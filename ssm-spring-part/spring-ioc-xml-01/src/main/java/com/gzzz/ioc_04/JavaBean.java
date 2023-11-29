@@ -11,12 +11,13 @@ package com.gzzz.ioc_04;
  */
 public class JavaBean {
     /**
-     *  回调方法必须是public void 组合
+     *  回调方法应该是public void 组合，其实也可以其他访问修饰符号，返回值是别的也行不过会被spring忽略，因为没有意义
      *  参数列表必须为空，因为bean标签找init-mnethod默认是找这种情况
      *  命名无所谓，可以叫init也能叫aaa
      */
+
     public void init() {
-        System.out.println("初始化方法...");
+        System.out.println("初始化方法1...");
     }
 
     /**
