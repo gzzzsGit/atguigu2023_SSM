@@ -1,6 +1,7 @@
 package com.gzzz.test;
 
 import com.gzzz.config.JavaConfigurarion;
+import com.gzzz.config.JavaConfigurationA;
 import com.gzzz.ioc_01.StudentController;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +34,12 @@ public class SpringIoCTest {
 
         StudentController bean1 = annotationConfigApplicationContext1.getBean(StudentController.class);
         System.out.println(bean1==bean);//false
-
     }
+    
+    @Test
+    public void test1(){
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(JavaConfigurationA.class);
+    }
+
+
 }

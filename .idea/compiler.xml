@@ -14,6 +14,7 @@
         <module name="spring-ioc-annotation-03" />
         <module name="user-service" />
         <module name="order-service" />
+        <module name="spring-java-practice-07" />
       </profile>
     </annotationProcessing>
   </component>

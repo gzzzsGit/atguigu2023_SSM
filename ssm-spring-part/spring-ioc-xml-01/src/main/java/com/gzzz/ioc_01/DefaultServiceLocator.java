@@ -10,7 +10,7 @@ package com.gzzz.ioc_01;
  * @Version 1.0
  */
 public class DefaultServiceLocator {
-    private static ClientServiceImpl clientService = new ClientServiceImpl(); ;
+    private static ClientServiceImpl clientService = new ClientServiceImpl();
     public ClientServiceImpl createClientServiceInstance() {
         return clientService;
     }
