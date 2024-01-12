@@ -2,6 +2,7 @@ package com.gzzz;
 
 import com.gzzz.config.JavaConfig;
 import com.gzzz.service.Calculator;
+import com.gzzz.service.impl.CalculatorPureImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

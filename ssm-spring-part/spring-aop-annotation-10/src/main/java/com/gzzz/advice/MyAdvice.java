@@ -3,6 +3,7 @@ package com.gzzz.advice;
 import com.alibaba.druid.sql.ast.statement.SQLPrivilegeItem;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Modifier;
@@ -34,8 +35,8 @@ import java.lang.reflect.Modifier;
  * @Version 1.0
  */
 
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class MyAdvice {
     @Before("com.gzzz.pointcut.MyPointCut.myPc()")
     public void before(JoinPoint joinPoint) {
@@ -54,7 +55,7 @@ public class MyAdvice {
 
     @AfterReturning(value = "com.gzzz.pointcut.MyPointCut.myPc()",returning = "result")
     public void afterReturning(JoinPoint joinPoint,Object result){
-
+        System.out.println("result:" + result);
     }
 
     @After("com.gzzz.pointcut.MyPointCut.myPc()")
