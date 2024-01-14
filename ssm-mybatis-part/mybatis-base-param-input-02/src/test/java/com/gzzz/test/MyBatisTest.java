@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * className: MyBatisTest
@@ -36,8 +37,9 @@ public class MyBatisTest {
         EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
 
         //5.管理资源或提交事务
-        Employee employee = mapper.queryById(1);
-        System.out.println("employee: " + employee);
+        List<Employee> employee = mapper.queryByNameAndSalary("jerry",666.66);
+        System.out.println("employee: " + employee.get(0));
         sqlSession.close();
     }
+
 }
