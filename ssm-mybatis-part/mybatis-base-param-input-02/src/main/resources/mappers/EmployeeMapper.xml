@@ -43,8 +43,17 @@
     -->
     <select id="queryByNameAndSalary" resultType="com.gzzz.pojo.Employee">
         select emp_id empId, emp_name empName, emp_salary empSalary
-        from t_emp where emp_name = #{a} and emp_salary = #{b}
---         from t_emp where emp_name = #{arg0} and emp_salary = #{arg1}
+        from t_emp
+        where emp_name = #{a}
+          and emp_salary = #{b}
+        --         from t_emp where emp_name = #{arg0} and emp_salary = #{arg1}
 --         from t_emp where emp_name = #{param1} and emp_salary = #{param2}
     </select>
+    <!--    
+        场景4： 传入map值，如何制定key？
+        方法：key = map中的key值
+    -->
+    <insert id="insertEmpMap">
+        insert into t_emp (emp_name, emp_salary) values (#{name}},#{salary})
+    </insert>
 </mapper>

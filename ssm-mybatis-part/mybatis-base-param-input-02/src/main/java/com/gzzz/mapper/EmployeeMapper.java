@@ -4,6 +4,7 @@ import com.gzzz.pojo.Employee;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * className: EmployeeMapper
@@ -27,4 +28,6 @@ public interface EmployeeMapper {
 
     // 根据员工姓名和工资查询员工信息
     List<Employee> queryByNameAndSalary(@Param("a") String name,@Param("b") Double salary);
+
+    int insertEmpMap(Map data);
 }

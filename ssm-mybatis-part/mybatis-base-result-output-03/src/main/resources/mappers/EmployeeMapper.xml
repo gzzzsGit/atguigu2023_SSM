@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzzz.mapper.EmployeeMapper">
+    <!--  DML 不需要指定resultType -->
+    <delete id="deleteById">
+        delete
+        from t_emp
+        where emp_id = #{id};
+    </delete>
+    <!--
+        场景1： 返回单个简单类型如何指定resultType属性
+                resultType语法：
+                    1.类的全限定符号
+                    2.别名简称
+                        mybatis提供了72种默认的别名
+                        包装类的别名就是其小写
+                            比如java.lang.String的别名是string
+                            java.lang.Double的别名是double
+                        基本数据类型的别名是开头加下划线
+                            如int 的别名 _int
+                        集合容器类型的别名也是其小写
+                            如Map List HashMap -> map list hashmap
+                        如果默认没有提供的需要自己定义别名或者使用全限定符
+                            给自己的类定义别名：
+                                方法1: 给类单独定义别名
+                                      <typeAliases>
+                                            <typeAlias type="com.gzzz.pojo.Employee" alias="employee"/>
+                                      </typeAliases>
+                                方法2: 批量赋予包下的类别名，默认是类名的首字母小写，也可以通过在类上添加@Alias("xxx")注解自定义别名
+                                      TODO: 注意！只有在批量赋予方法下才能使用@Alias注解指定别名
+                                      <typeAliases>
+                                            <package name="com.gzzz.pojo"/>
+                                      </typeAliases>
+    -->
+    <select id="queryNameById" resultType="java.lang.String">
+        select emp_name
+        from t_emp
+        where emp_id = #{id};
+    </select>
+
+    <select id="querySalaryById" resultType="java.lang.Double">
+        select emp_salary
+        from t_emp
+        where emp_id = #{id};
+    </select>
+
+    <!--  场景2： 返回单个自定义类类型
+                    默认要求：
+                        查询，返回单个实体类型，要求列名和属性名要一致，这样才可以进行实体类的属性映射！
+                        比如sql语句中需要将数据库中默认的下划线命名方式起别名变成驼峰式
+                            可以通过在config.xml文件中的setting标签中设置mapUnderscoreToCamelCase开启驼峰式自动映射,这样就不用自己起别名了
+    -->
+    <select id="queryById" resultType="employee">
+        --         select emp_id empId, emp_name empName, emp_salary empSalary
+        select *
+        from t_emp
+        where emp_id = #{id}
+    </select>
+
+    <!--
+        场景3: 没有对应实体类对象，但是想在返回结果中包含列名，可以用map接收
+              key-> 查询的列
+              value-> 查询的值
+    -->
+    <select id="selectEmpNameAndMaxSalary" resultType="map">
+        select emp_name                            员工姓名,
+               emp_salary                          员工工资,
+               (select avg(emp_salary) from t_emp) 部门平均工资
+        from t_emp
+        where emp_salary = (select max(emp_salary) from t_emp)
+    </select>
+
+    <!--
+        场景4：返回的是集合类型如何指定
+            // 查询工资高于传入值的员工姓名们 200
+            List<String> queryNameBySalary(Double salary);
+
+            // 查询全部员工信息
+            List<Employee> queryAll();
+
+            注意：返回值是集合，resultType不需要指定集合类型，只需要指定集合存的泛型
+                 因为mybatis调ibatis，ibatis中的查询方法有两个：selectOne | selectList
+                 selectOne底层也是调selectList，所以本来就都是用列表查
+    -->
+    <select id="queryNameBySalary">
+        select emp_name
+        from t_emp
+        where emp_salary > #{salary}
+    </select>
+
+    <select id="queryAll">
+        select *
+        from t_emp
+    </select>
+
+    <!--
+        场景5: 主键回显  获取插入数据的主键
+              1. 自增长主键回显 mysql中的auto_increment主键
+                    useGeneratedKeys="true"  需要数据库自动增加的主键值
+                    keyColumn="emp_id"   主键列的值
+                    keyProperty="empId"   接收主键列的实体类对象属性值
+    -->
+    <insert id="insertEmp" useGeneratedKeys="true" keyColumn="emp_id" keyProperty="empId">
+        insert into t_emp (emp_name, emp_salary)
+        values (#{empName},#{empSalary});
+    </insert>
+</mapper>

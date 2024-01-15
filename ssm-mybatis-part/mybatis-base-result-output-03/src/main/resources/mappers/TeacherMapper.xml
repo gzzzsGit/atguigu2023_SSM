@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzzz.mapper.TeacherMapper">
+    <insert id="insertTeacher">
+        <!--
+            插入之前，先指定一段sql语句，生成一个主键值
+            order="BEFORE | AFTER" 设置sql语句在插入之前还是之后执行
+            resultType= 返回值类型
+            keyProperty= 查询结果给哪个属性赋值
+        -->
+        <selectKey order="BEFORE" resultType="string" keyProperty="tId">
+            select REPLACE(UUID(),'-','');
+        </selectKey>
+        insert INTO teacher (t_id, t_name)
+        values (#{tId}, #{tName})
+    </insert>
+</mapper>
