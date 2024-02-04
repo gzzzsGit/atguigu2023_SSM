@@ -16,4 +16,28 @@
         insert INTO teacher (t_id, t_name)
         values (#{tId}, #{tName})
     </insert>
+
+<!--  列名与属性不一致的解决办法：
+         方案1： 给列名起别名等于属性名 select t_id tId, t_name tName
+         方案2： 开启驼峰式映射 <setting name="mapUnderscoreToCamelCase" value="true"/>
+         方案3： 不指定resultType，指定自定义resultMap映射
+                    resultType （自动映射）和resultMap （自定义映射） 二选一
+                    resultType只能映射一层结构，深层次的对象结构无法映射，如多表查询时不能映射
+-->
+<!--  声明resultMap标签，自定义映射规则
+      id=标识  即 <select resultMap = "标识"
+      type=具体的返回值类型，集合只写泛型
+            <id 主键映射关系
+            <result 普通列映射关系
+-->
+    <resultMap id="tMap" type="teacher">
+        <id column="t_id" property="tId"/>
+        <result column="t_name" property="tName"/>
+    </resultMap>
+
+    <select id="queryById" resultMap="tMap">
+        select *
+        from teacher
+        where t_id = #{tId}
+    </select>
 </mapper>

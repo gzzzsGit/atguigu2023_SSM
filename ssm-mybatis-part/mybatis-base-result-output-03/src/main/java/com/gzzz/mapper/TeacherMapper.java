@@ -13,4 +13,6 @@ import com.gzzz.pojo.Teacher;
  */
 public interface TeacherMapper {
     int insertTeacher(Teacher teacher);
+
+    Teacher queryById(String tId);
 }

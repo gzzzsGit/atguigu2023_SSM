@@ -58,7 +58,6 @@ public class MyBatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
 
         //3.获取SqlSession对象，默认是关闭自动提交
-        // openSession(true) 自动开启事务提交，这种情况下不需要进行sqlSession.commit
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
         //4.获取代理mapper对象
@@ -84,6 +83,7 @@ public class MyBatisTest {
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(ips);
 
         //设置事务自动提交
+        // openSession(true) 自动开启事务提交，这种情况下不需要进行sqlSession.commit
         SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
         TeacherMapper mapper = sqlSession.getMapper(TeacherMapper.class);
@@ -97,6 +97,23 @@ public class MyBatisTest {
         mapper.insertTeacher(teacher);
 
         // 关闭资源
+        sqlSession.close();
+    }
+    
+    @Test
+    public void test4() throws IOException {
+        InputStream ips = Resources.getResourceAsStream("mybatis-config.xml");
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(ips);
+
+        SqlSession sqlSession = sqlSessionFactory.openSession(true);
+
+        TeacherMapper mapper = sqlSession.getMapper(TeacherMapper.class);
+
+        Teacher teacher = mapper.queryById("21b3994db3d011eeae07005056c00001");
+
+        System.out.println("teacher: " + teacher);
+
         sqlSession.close();
     }
 }
