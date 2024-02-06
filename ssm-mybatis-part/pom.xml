@@ -14,6 +14,8 @@
         <module>mybatis-base-result-output-03</module>
         <module>mybatis-base-crud-04</module>
         <module>mybatis-high-multitable-05</module>
+        <module>mybatis-high-dynamicsql-06</module>
+        <module>mybatis-other-extend-07</module>
     </modules>
 
     <properties>

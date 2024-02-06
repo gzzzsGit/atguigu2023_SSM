@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gzzz.mapper.EmployeeMapper">
+    <!--   如果传入属性，就判断相等，如果不传入，就不加对应的条件
+           if   判断传入的参数，最终是否添加语句
+                test属性 内部做比较运算，如果为true则将标签内的sql语句进行拼接，false则不拼接标签内部语句
+                    判断语句："key 比较符号 值 and | or key 比较符号 值"
+                    其中：大于和小于符号不推荐直接写>< , 建议使用html中的 &gt;代替>  &lt;代替<
+           问题：
+                如果只有if标签
+                    假如两个条件都满足 where emp_name =#{name} and emp_salary =#{salary}
+                    假如只有第一个条件满足 where emp_name =#{name}
+                    假如只有第二个条件满足 where and emp_salary =#{salary} 语句错误
+                    假如都不满足会多一个where 语句错误
+          所以需要where标签
+                1.自动添加where关键字  where内部有任何一个if满足，自动添加where关键字，不满足去掉where
+                2.自动去掉多余的and 和 or 关键字
+    -->
+
+    <!--  抽取重复的sql语句  -->
+    <sql id="selectSql">
+        select *
+        from t_emp;
+    </sql>
+
+    <select id="query" resultType="employee">
+        <include refid="selectSql"/>
+        <where>
+            <if test="name!=null">
+                emp_name = #{name}
+            </if>
+            <if test="salary!=null and salary &gt; 100">
+                and emp_salary = #{salary}
+            </if>
+        </where>
+    </select>
+
+    <!--  用trim标签替代where  -->
+    <select id="queryTrim" resultType="employee">
+        select * from t_emp
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="name!=null">
+                emp_name = #{name}
+            </if>
+            <if test="salary!=null and salary &gt; 100">
+                and emp_salary = #{salary}
+            </if>
+        </trim>
+    </select>
+        <!--   相当于   -->
+<!--    <select id="queryTrim" resultType="employee">-->
+<!--        select * from t_emp-->
+<!--        <trim prefix="where" suffixOverrides="and|or">-->
+<!--            <if test="name!=null">-->
+<!--                emp_name = #{name} and -->
+<!--            </if>-->
+<!--            <if test="salary!=null and salary &gt; 100">-->
+<!--                emp_salary = #{salary}-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--    </select>-->
+
+    <!--  根据员工id更新员工的数据, 要求传入的name和salary有不为null的才更新
+
+          只使用if标签的情况下：
+              update t_emp set emp_name = #{empName},emp_salary = #{empSalary}
+              如果两个条件全部满足，语法没问题
+              如果只满足第一个条件，多了一个逗号
+              如果只满足第二个条件，语法没问题
+              如果都不满足，语法错误
+          所以需要set标签：
+              1. 自动去掉多余的，
+              2. 自动添加set关键字
+    -->
+    <update id="update">
+        update t_emp
+            <set>
+                <if test="empName!=null">
+                    emp_name = #{empName},
+                </if>
+                <if test="empSalary!=null">
+                    emp_salary = #{empSalary}
+                </if>
+            </set>
+    </update>
+
+    <!--  用trim标签替代set  -->
+    <update id="update">
+        update t_emp
+        <trim prefix="set" suffixOverrides=",">
+            <if test="empName!=null">
+                emp_name = #{empName},
+            </if>
+            <if test="empSalary!=null">
+                emp_salary = #{empSalary}
+            </if>
+        <trim/>
+    </update>
+
+<!--    根据两个条件查询，如果姓名不为null使用姓名查询，如果姓名为null，薪水不为空就用薪水查询。都为null就查询全部-->
+    <!--  choosee标签
+                when标签 只会选择第一个符合条件的语句添加  区别于 if标签
+                otherwise 标签用来设置其他情况
+    -->
+    <select id="queryChoose" resultType="employee">
+        select * from t_emp
+        <choose>
+            <when test="name!=null">
+                emp_name = #{name}
+            </when>
+            <when test="salary!=null">
+                and emp_salary = #{salary}
+            </when>
+            -- otherwise标签设置一个恒等的条件保证where不多于  -> where 1=1
+            <otherwise>1=1</otherwise>
+        </choose>
+    </select>
+
+    <!--  select * from t_emp where emp_id in (1,2,3)  -->
+    <select id="queryBathch" resultType="employee">
+        select *
+        from t_emp
+        where emp_id in
+        <!--
+            遍历的数据
+            collection = "ids | arg0 | list | collection"
+            open 遍历之前要追加的字符串
+            close 遍历结束需要添加的字符串
+            separator 每次遍历的分割符号！如果是最后一次，不会追加
+            item 获取每个遍历项
+        -->
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            <!-- 遍历项 #{item指定的key} -->
+            #{id}
+        </foreach>
+    </select>
+
+    <!--  insert into t_emp (emp_name,emp_salary) values ("xx",xx),("xx",xx),("xx",xx) -->
+    <insert id="insertBatch" >
+        insert into t_emp (emp_name, emp_salary);
+        values
+        <foreach collection="list" separator="," item="employee">
+            (#{employee.empName},#{employee.empSalary})
+        </foreach>
+    </insert>
+
+    <!--  如果一个标签需要执行多个语句，需要设置允许执行多条语句。 在数据库url后面设置allowMultiQueries=true  -->
+    <update id="updateBatch">
+        <foreach collection="list" separator=";" item="emp">
+            update t_emp set emp_name = #{emp.empName}  emp_salary = #{emp.empSalary}
+            where emp_id = #{emp.empId}
+        </foreach>
+    </update>
+
+</mapper>
