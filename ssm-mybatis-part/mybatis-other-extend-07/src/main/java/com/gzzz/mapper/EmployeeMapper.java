@@ -1,5 +1,9 @@
 package com.gzzz.mapper;
 
+import com.gzzz.pojo.Employee;
+
+import java.util.List;
+
 /**
  * className: EmployeeMapper
  * Package : com.gzzz.mapper
@@ -10,5 +14,5 @@ package com.gzzz.mapper;
  * @Version 1.0
  */
 public interface EmployeeMapper {
-
+    List<Employee> queryList();
 }
