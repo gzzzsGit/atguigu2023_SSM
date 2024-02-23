@@ -1,9 +1,7 @@
 package com.gzzz.pojo;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.Date;
@@ -23,6 +21,7 @@ import java.util.Date;
  * @Create 2024/2/22 15:17
  * @Version 1.0
  */
+@Data
 public class User {
     @NotBlank
     private String name;
@@ -32,7 +31,7 @@ public class User {
     private int age;
     @Email
     private String email;
-    @NotBlank
+    @Past
     private Date birthday;
 
 }

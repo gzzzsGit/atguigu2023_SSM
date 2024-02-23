@@ -38,7 +38,8 @@ public class ShareController {
         model.addAttribute("key", "value");//request
     }
 
-    public void data2(ModelMap modelmap) {
+    public void data2(ModelMap modelmap)
+    {
         modelmap.addAttribute("key", "value");//request
     }
 
