@@ -3,6 +3,7 @@ package config;
 import jakarta.servlet.http.PushBuilder;
 import org.aspectj.weaver.ast.Var;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -29,6 +30,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement //开始事务注解支持
 @EnableAspectJAutoProxy
+@ComponentScan("com.gzzz.service")
 public class ServiceJavaConfig {
 
     // 返回一个DataSourceTransactionManager事务管理器，mybatis是使用这个事务管理器
